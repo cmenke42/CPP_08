@@ -1,91 +1,234 @@
 #include <iostream>
-// #include <vector>
-// #include <string>
+#include <vector>
+#include <ctime>
+#include <algorithm>
 
-#include <Span.hpp>
+#include "Span.hpp"
+#include "colors.h"
+
+#define SHORT_SPAN PINK "Shortest Span:\t" RESET
+#define LONG_SPAN PINK "Longest Span:\t" RESET
+#define BIG_SPAN_MAX 100000
+
+void testFromSubject();
+void testAddRange();
+void testAddRangeConst();
+void testExceptions();
+void testMixedAddingOfNumbers();
+void testBigSpanWithRange(const std::vector<int>& vectorInt);
+void testBigSpan(const std::vector<int>& vectorInt);
 
 int main()
 {
+	testFromSubject();
+	testAddRange();
+	testAddRangeConst();
+	testExceptions();
+	testMixedAddingOfNumbers();
+
+	std::cout << YELLOW << "------- Preparing vector with random numbers -------" << RESET << std::endl;
+	std::cout << BLUE << "Creating a vector with: 0 - " << BIG_SPAN_MAX - 1 << std::endl;
+  std::vector<int> vectorInt(BIG_SPAN_MAX);
+  for (int i = 0; i < BIG_SPAN_MAX; ++i)
+	{
+    vectorInt[i] = i;
+  }
+	std::cout << BLUE << "Shuffling the vector" << std::endl;
+	std::srand(std::time(0));
+  std::random_shuffle(vectorInt.begin(), vectorInt.end());
+	testBigSpanWithRange(vectorInt);
+	std::cout << BLUE << "Shuffling the vector" << std::endl;
+	std::random_shuffle(vectorInt.begin(), vectorInt.end());
+	testBigSpan(vectorInt);
+
+	return 0;
+}
+
+void testFromSubject()
+{
+	std::cout << YELLOW << "------- Tests from the Subject -------" << RESET << std::endl;
 	Span sp = Span(5);
 	sp.addNumber(6);
 	sp.addNumber(3);
 	sp.addNumber(17);
 	sp.addNumber(9);
 	sp.addNumber(11);
-	std::cout << "short span: " << sp.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
+	std::cout << sp.shortestSpan() << std::endl;
+	std::cout << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
 
-	//copy cosntructor
-	std::cout << "Span sp2 = sp" << std::endl;
-	Span sp2 = sp;
-	std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
+void testAddRange()
+{
+	std::cout << YELLOW << "------- Test addRange() -------" << RESET << std::endl;
+	const unsigned int maxSize = 10;
+	Span sp = Span(maxSize);
+	int numbers[maxSize] = {-1, 2, 3, 40, 5, 6, -900, 8, -9, 1000};
+	sp.addRange(numbers, numbers + maxSize);
+	sp.print("sp");
+	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
 
-	unsigned int maxSize = 10;
-	sp2 = Span(maxSize + 1);
-	unsigned int* numbers = new unsigned int[maxSize];
+void testAddRangeConst()
+{
+	std::cout << YELLOW << "------- Test addRange() with const -------" << RESET << std::endl;
+	const unsigned int maxSize = 100;
+	std::cout << BLUE << "Creating a vector with " << maxSize << " elements" << std::endl;
+	std::vector<int> vectorInt;
 	for (unsigned int i = 0; i < maxSize; ++i)
 	{
-		numbers[maxSize - 1 - i] = i;
+		vectorInt.push_back(i);
 	}
-	sp2.addNumber(numbers, numbers + maxSize); //works because you don't dereference the end
-	sp2.addNumber(maxSize);
-	sp2.print();
-	std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
-	delete[] numbers;
-	numbers = NULL;
-
-	maxSize = 10;
-	sp2 = Span(maxSize + 2);
-	numbers = new unsigned int[maxSize];
-	for (unsigned int i = 0; i < maxSize; ++i)
+	std::cout << "Contents of vectorInt: " << GREEN << std::endl;
+	for (std::vector<int>::const_iterator it = vectorInt.begin(); it != vectorInt.end(); ++it)
 	{
-		numbers[maxSize - 1 - i] = i;
+		std::cout << *it << " ";
 	}
-	sp2.addNumber(numbers, numbers + maxSize);
-	sp2.addNumber(546546);
-	sp2.addNumber(maxSize - 1);
-	sp2.print();
-	std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
-	delete[] numbers;
-	numbers = NULL;
+	std::cout << RESET << std::endl;
+	std::cout << BLUE << "Filling Span with vectorInt::const_iterator" << std::endl;
+	Span sp = Span(maxSize);
+	std::vector<int>::const_iterator vectorConstItBegin = vectorInt.begin();
+	std::vector<int>::const_iterator vectorConstItEnd = vectorInt.end();
+	sp.addRange(vectorConstItBegin, vectorConstItEnd);
+	sp.print("sp");
+	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
 
-	//assignment operator
-	std::cout << "sp2 = sp" << std::endl;
+	std::cout << YELLOW << "------- Test assignment operator -------" << RESET << std::endl;
+	Span sp2(maxSize);
+	std::cout << BLUE << "sp2 = sp" << std::endl;
 	sp2 = sp;
-	std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
+	sp2.print("sp2");
+	std::cout << SHORT_SPAN << sp2.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp2.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
 
-
-	maxSize = 1000000;
-	sp2 = Span(maxSize + 1);
-	numbers = new unsigned int[maxSize];
-	for (unsigned int i = 0; i < maxSize; ++i)
+void testExceptions()
+{
+	std::cout << YELLOW << "------- Test exceptions -------" << RESET << std::endl;
+	std::cout << BLUE << "Empty Span" << std::endl;
+	Span sp = Span(0);
+	try
 	{
-		numbers[maxSize - 1 - i] = i;
+		std::cout << BLUE << "Trying to get the shortest span" << std::endl;
+		std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
 	}
-	sp2.addNumber(numbers, numbers + maxSize);
-	sp2.addNumber(maxSize);
-	std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	std::cout << "-----------------------------" << std::endl;
-	delete[] numbers;
-	numbers = NULL;
+	catch (const std::exception& e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+	try
+	{
+		std::cout << BLUE << "Trying to get the longest span" << std::endl;
+		std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+	try
+	{
+		std::cout << BLUE << "Trying addNumber" << std::endl;
+		sp.addNumber(42);
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+	std::cout << std::endl;
 
-	////compilation error
-	// std::vector<std::string> test;
-	// test.push_back("sdfkgklsdfjgksdfjg");
-	// sp2 = Span(2);
-	// sp2.addNumber(test.begin(), test.end());
-	// std::cout << "short span: "<< sp2.shortestSpan() << std::endl;
-	// std::cout << "long span: " << sp2.longestSpan() << std::endl;
-	// std::cout << "-----------------------------" << std::endl;
-	return 0;
+	std::cout << BLUE << "Creating a Span with maxSize = 5" << std::endl;
+	Span sp2 = Span(5);
+	try
+	{
+		std::cout << BLUE << "Trying to add 6 numbers" << std::endl;
+		sp2.addNumber(1);
+		sp2.addNumber(2);
+		sp2.addNumber(3);
+		sp2.addNumber(4);
+		sp2.addNumber(5);
+		sp2.addNumber(6);
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+	sp2.print("sp2");
+	try
+	{
+		std::cout << BLUE << "Trying to add a bigger range" << RESET << std::endl;
+		int numbers[6] = {1, 2, 3, 4, 5, 6};
+		sp2.addRange(numbers, numbers + 6);
+	}	
+	catch (const std::exception& e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+void testMixedAddingOfNumbers()
+{
+	std::cout << YELLOW << "------- Test mixed adding of numbers -------" << RESET << std::endl;
+	std::cout << BLUE << "Creating a Span with maxSize = 10" << std::endl;
+	const unsigned int maxSize = 10;
+	Span sp = Span(maxSize);
+	sp.addNumber(1);
+	sp.print("sp");
+
+	std::cout << BLUE << "Adding a range of 4 numbers" << std::endl;
+	int numbers[4] = {2, 3, 4, 5};
+	sp.addRange(numbers, numbers + 4);
+	sp.print("sp");
+
+	std::cout << BLUE << "Adding a range of 3 numbers" << std::endl;
+	int numbers2[3] = {6, 7, 8};
+	sp.addRange(numbers2, numbers2 + 3);
+	sp.print("sp");
+
+	std::cout << BLUE << "Adding one number" << std::endl;
+	sp.addNumber(9);
+	sp.print("sp");
+	std::cout << BLUE << "Adding one number" << std::endl;
+	sp.addNumber(10);
+	sp.print("sp");
+
+	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
+
+void testBigSpanWithRange(const std::vector<int>& vectorInt)
+{
+	std::cout << YELLOW << "------- Test big Span -------" << RESET << std::endl;
+	std::cout << BLUE << "Creating a Span with maxSize = " << BIG_SPAN_MAX << std::endl;
+	Span sp = Span(BIG_SPAN_MAX);
+	std::cout << BLUE << "Adding a range of " << BIG_SPAN_MAX << " numbers" << std::endl;
+	sp.addRange(vectorInt.begin(), vectorInt.end());
+	sp.printFirstTenElements("sp");
+	// sp.print("sp");
+	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
+
+void testBigSpan(const std::vector<int>& vectorInt)
+{
+	std::cout << YELLOW << "------- Test big Span -------" << RESET << std::endl;
+	std::cout << BLUE << "Creating a Span with maxSize = " << BIG_SPAN_MAX << std::endl;
+	Span sp = Span(BIG_SPAN_MAX);
+	std::cout << BLUE << "Adding " << BIG_SPAN_MAX << " numbers" << std::endl;
+	for (unsigned int i = 0; i < BIG_SPAN_MAX; ++i)
+	{
+		sp.addNumber(vectorInt[i]);
+	}
+	sp.printFirstTenElements("sp");
+	// sp.print("sp");
+	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
+	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
 }

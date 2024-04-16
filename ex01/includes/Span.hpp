@@ -1,34 +1,41 @@
 #ifndef SPAN_HPP_INCLUDED
-# define SPAN_HPP_INCLUDED
+#define SPAN_HPP_INCLUDED
 
 #include <vector>
 #include <stdexcept>
 
 class Span
 {
-	public:
-		Span(unsigned int N);
-		Span(const Span& other);
-		Span& 						operator=(const Span& other);
-		~Span();
+public:
+	Span(unsigned int N);
+	Span(const Span& other);
+	Span& operator=(Span other);
+	~Span();
+
+	void					swap(Span& other);
+
+	void 					addNumber(int number);
+	template <typename const_iterator>
+	void 					addRange(const_iterator first, const_iterator last);
+
+	unsigned int 	shortestSpan() const;
+	unsigned int 	longestSpan() const;
+
+	void 					print(std::string name) const;
+	void 					printFirstTenElements(std::string name) const;
 
 
-		void						addNumber(unsigned int number);
-		template <typename Iterator>
-		void 						addNumber(Iterator first, Iterator last);
-		unsigned int				shortestSpan() const;
-		unsigned int				longestSpan() const;
+private:
+	typedef std::vector<int>	_ArrayType;
+	Span::_ArrayType 					_array;
+	unsigned int 							_maxSize;
 
-		void						print() const;
-	private:
-		typedef std::vector<unsigned int> _ArrayType;
-		Span::_ArrayType 			_array;
-		unsigned int				_maxSize;
-
-		static void 				_printValue(const unsigned int& value);
-
+	static void _printValue(const int& value);
 };
 
-#include "Span.tpp"
+template <typename T>
+void swap(Span& left, Span& right);
+
+#include "../src/Span.tpp"
 
 #endif /* SPAN_HPP_INCLUDED */

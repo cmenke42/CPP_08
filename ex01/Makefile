@@ -8,7 +8,7 @@ SRCDIR			:= src
 INCLUDES_DIR	:= includes
 
 # Include paths
-INCLUDES		:= -I ${INCLUDES_DIR} -I ${SRCDIR}
+INCLUDES		:= -I ${INCLUDES_DIR}
 
 # All source files
 SRCS := \
