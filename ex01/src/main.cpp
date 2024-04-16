@@ -2,6 +2,7 @@
 #include <vector>
 #include <ctime>
 #include <algorithm>
+#include <limits>
 
 #include "Span.hpp"
 #include "colors.h"
@@ -17,6 +18,7 @@ void testExceptions();
 void testMixedAddingOfNumbers();
 void testBigSpanWithRange(const std::vector<int>& vectorInt);
 void testBigSpan(const std::vector<int>& vectorInt);
+void testMaxValues();
 
 int main()
 {
@@ -41,6 +43,7 @@ int main()
 	std::random_shuffle(vectorInt.begin(), vectorInt.end());
 	testBigSpan(vectorInt);
 
+	testMaxValues();
 	return 0;
 }
 
@@ -230,5 +233,65 @@ void testBigSpan(const std::vector<int>& vectorInt)
 	// sp.print("sp");
 	std::cout << SHORT_SPAN << sp.shortestSpan() << std::endl;
 	std::cout << LONG_SPAN << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+}
+
+void testMaxValues()
+{
+	std::cout << YELLOW << "------- Test max values -------" << RESET << std::endl;
+	std::cout << BLUE << "Filling span with IntMIN and IntMAX" << RESET << std::endl;
+	Span sp = Span(2);
+	sp.addNumber(std::numeric_limits<int>::min());
+	sp.addNumber(std::numeric_limits<int>::max());
+	sp.print("sp");
+
+	long int reference = static_cast<long int>(std::numeric_limits<int>::min()) - static_cast<long int>(std::numeric_limits<int>::max());
+	reference = std::abs(reference);
+	unsigned int minSpan = sp.shortestSpan();
+	unsigned int maxSpan = sp.longestSpan();
+	std::cout << BLUE << "Values: " << RESET << std::endl;
+	std::cout << "Reference:\t " << reference << std::endl;
+	std::cout << "Shortest Span:\t " << minSpan << std::endl;
+	std::cout << "Longest Span:\t " << maxSpan << std::endl;
+	if (minSpan == reference && maxSpan == reference)
+		std::cout << GREEN << "Values match reference" << RESET << std::endl;
+	else
+		std::cout << RED << "Values do not match reference" << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << BLUE << "Filling span with IntMAX and IntMAX" << RESET << std::endl;
+	Span sp2 = Span(2);
+	sp2.addNumber(std::numeric_limits<int>::max());
+	sp2.addNumber(std::numeric_limits<int>::max());
+	sp2.print("sp2");
+	reference = 0;
+	minSpan = sp2.shortestSpan();
+	maxSpan = sp2.longestSpan();
+	std::cout << BLUE << "Values: " << RESET << std::endl;
+	std::cout << "Reference:\t " << reference << std::endl;
+	std::cout << "Shortest Span:\t " << minSpan << std::endl;
+	std::cout << "Longest Span:\t " << maxSpan << std::endl;
+	if (minSpan == reference && maxSpan == reference)
+		std::cout << GREEN << "Values match reference" << RESET << std::endl;
+	else
+		std::cout << RED << "Values do not match reference" << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << BLUE << "Filling span with IntMIN and IntMIN" << RESET << std::endl;
+	Span sp3 = Span(2);
+	sp3.addNumber(std::numeric_limits<int>::min());
+	sp3.addNumber(std::numeric_limits<int>::min());
+	sp3.print("sp3");
+	reference = 0;
+	minSpan = sp3.shortestSpan();
+	maxSpan = sp3.longestSpan();
+	std::cout << BLUE << "Values: " << RESET << std::endl;
+	std::cout << "Reference:\t " << reference << std::endl;
+	std::cout << "Shortest Span:\t " << minSpan << std::endl;
+	std::cout << "Longest Span:\t " << maxSpan << std::endl;
+	if (minSpan == reference && maxSpan == reference)
+		std::cout << GREEN << "Values match reference" << RESET << std::endl;
+	else
+		std::cout << RED << "Values do not match reference" << RESET << std::endl;
 	std::cout << std::endl;
 }

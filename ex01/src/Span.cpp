@@ -65,12 +65,12 @@ unsigned int Span::shortestSpan() const
 	Span::_ArrayType::const_iterator sortedArrayIter = sortedArray.begin();
   for (; sortedArrayIter < sortedArrayEnd ; ++sortedArrayIter)
   {
-    unsigned int currentSpan = *(sortedArrayIter + 1) - *sortedArrayIter;
-    minSpan = std::min(minSpan, currentSpan);
+		long int difference = static_cast<long int>(*(sortedArrayIter + 1)) - *sortedArrayIter;
+		difference = std::abs(difference);
+    minSpan = std::min(minSpan, static_cast<unsigned int>(difference));
     if (minSpan == 0)
       return (minSpan);
   }
-
     return (minSpan);
 }
 
@@ -82,13 +82,13 @@ unsigned int Span::longestSpan() const
 	if (this->_array.size() < 2)
 		throw std::runtime_error("No span to be found. Size < 2");
 	
-	unsigned int min;
-	unsigned int max;
+	long int min;
+	long int max;
 
 	min = *std::min_element(this->_array.begin(), this->_array.end());
 	max = *std::max_element(this->_array.begin(), this->_array.end());
 
-	return (max - min);
+	return (static_cast<unsigned int>(max - min));
 }
 
 void Span::print(std::string name) const
