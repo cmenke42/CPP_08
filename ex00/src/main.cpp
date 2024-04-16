@@ -58,5 +58,24 @@ int main(void)
 		std::cout << NOT_FOUND << std::endl;
 	std::cout << std::endl;
 
+
+	std::cout << YELLOW << "------- Testing with: empty std::vector<int> -------" << RESET << std::endl;
+	std::vector<int> emptyVector;
+	emptyVector.resize(0);
+	std::cout << BLUE << "Contents of emptyVector: " << RESET << GREEN << std::endl;
+	for (std::vector<int>::iterator it = emptyVector.begin(); it != emptyVector.end(); it++)
+	{
+		std::cout << *it << " ";
+	}
+	std::cout << RESET << std::endl;
+	std::cout << BLUE << "Searching for 5 in emptyVector: " << RESET << std::endl;
+	std::vector<int>::iterator emptyVectorIt;
+	emptyVectorIt = easyFind(emptyVector, 5);
+	if (emptyVectorIt != emptyVector.end())
+		std::cout << *emptyVectorIt << std::endl;
+	else
+		std::cout << NOT_FOUND << std::endl;
+	std::cout << std::endl;
+
 	return 0;
 }
