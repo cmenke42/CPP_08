@@ -8,7 +8,7 @@ SRCDIR			:= src
 INCLUDES_DIR	:= includes
 
 # Include paths
-INCLUDES		:= -I ${INCLUDES_DIR} -I ${SRCDIR}
+INCLUDES		:= -I ${INCLUDES_DIR}
 
 # All source files
 SRCS := \
@@ -25,8 +25,8 @@ CXXFLAGS += -std=c++98 -pedantic
 
 # Development flags
 CXXFLAGS += -g -O0
-# CXXFLAGS += -fsanitize=thread
-# CXXFLAGS += -fsanitize=address
+CXXFLAGS += -fsanitize=address
+CXXFLAGS += -fsanitize=undefined
 
 # Add includes
 CXXFLAGS += ${INCLUDES}
