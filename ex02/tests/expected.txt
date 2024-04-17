@@ -21,9 +21,9 @@ mstack == mstack3: [1;35mtrue[0m
 [1;34mMutantStack<int, std::list<int> >[0m
 [1;34mPrinting mstack:[0m
 [1;32m5 17 3 [0m
-[1;34mMutantStack<int> mstack2(mstack)[0m
-[1;34mMutantStack<int> mstack3 = mstack[0m
-[1;34mMutantStack<int> mstack3 = mstack3[0m
+[1;34mmstack2(mstack)[0m
+[1;34mmstack3 = mstack[0m
+[1;34mmstack3 = mstack3[0m
 [1;34mComparing contents:[0m
 mstack == mstack2: [1;35mtrue[0m
 mstack == mstack3: [1;35mtrue[0m
