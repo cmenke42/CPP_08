@@ -1,3 +1,4 @@
+#include "Span.hpp"
 
 /**
  * @brief Inserts a range into the Span.

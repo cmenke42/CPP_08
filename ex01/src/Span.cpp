@@ -24,8 +24,7 @@ Span::Span(const Span& other)
 
 Span& Span::operator=(Span other)
 {
-	this->_array = other._array;
-	this->_maxSize = other._maxSize;
+	swap(other);
 	return (*this);
 }
 
@@ -50,7 +49,7 @@ void Span::addNumber(int number)
 }
 
 /**
- * @throws std::runtime_error -> If the current Span size < 2>.
+ * @throws std::runtime_error -> If the current Span size < 2.
  */
 unsigned int Span::shortestSpan() const
 {
@@ -75,7 +74,7 @@ unsigned int Span::shortestSpan() const
 }
 
 /**
- * @throws std::runtime_error -> If the current Span size < 2>.
+ * @throws std::runtime_error -> If the current Span size < 2.
  */
 unsigned int Span::longestSpan() const
 {
@@ -103,7 +102,7 @@ void Span::print(std::string name) const
 void Span::printFirstTenElements(std::string name) const
 {
 	std::cout << CYAN << "First ten elements of " << name << " -->" << GREEN << std::endl;
-	for (unsigned int i = 0; i < 10 && i < this->_array.size(); i++)
+	for (unsigned int i = 0; i < 10 && i < this->_array.size(); ++i)
 	{
 		_printValue(this->_array[i]);
 	}

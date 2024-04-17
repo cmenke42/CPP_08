@@ -79,10 +79,10 @@ void testAddRangeConst()
 	std::cout << YELLOW << "------- Test addRange() with const -------" << RESET << std::endl;
 	const unsigned int maxSize = 100;
 	std::cout << BLUE << "Creating a vector with " << maxSize << " elements" << std::endl;
-	std::vector<int> vectorInt;
+	std::vector<int> vectorInt(maxSize);
 	for (unsigned int i = 0; i < maxSize; ++i)
 	{
-		vectorInt.push_back(i);
+		vectorInt[i] = i;
 	}
 	std::cout << "Contents of vectorInt: " << GREEN << std::endl;
 	for (std::vector<int>::const_iterator it = vectorInt.begin(); it != vectorInt.end(); ++it)
