@@ -150,11 +150,11 @@ void testCopyAndAssignComplex()
 		std::cout << *it << " ";
 	}
 	std::cout << RESET << std::endl;
-	std::cout << BLUE << "MutantStack<int> mstack2(mstack)" << RESET << std::endl;
+	std::cout << BLUE << "mstack2(mstack)" << RESET << std::endl;
 	MstackType mstack2(mstack);
-	std::cout << BLUE << "MutantStack<int> mstack3 = mstack" << RESET << std::endl;
+	std::cout << BLUE << "mstack3 = mstack" << RESET << std::endl;
 	MstackType mstack3 = mstack2;
-	std::cout << BLUE << "MutantStack<int> mstack3 = mstack3" << RESET << std::endl;
+	std::cout << BLUE << "mstack3 = mstack3" << RESET << std::endl;
 	mstack3 = mstack3;
 	std::cout << BLUE << "Comparing contents:" << RESET << std::endl;
 	std::cout << "mstack == mstack2: " << PINK << std::boolalpha << (mstack == mstack2) << RESET << std::endl;
