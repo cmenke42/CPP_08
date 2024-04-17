@@ -1,0 +1,31 @@
+[1;33m------- Test from subject -------[0m
+[1;34mMutantStack<int> mstack;[0m
+17 1 5 3 5 737 0 
+[1;34mstd::list<int> listReference;[0m
+17 1 5 3 5 737 0 
+[1;33m------- Test with alternative sequence -------[0m
+[1;34mMutantStack<int, std::list<int> >[0m
+17 1 5 3 5 737 0 
+[1;33m------- Test copy and assign: simple-------[0m
+[1;34mPrinting mstack:[0m
+[1;32m5 17 3 [0m
+[1;34mMutantStack<int> mstack2(mstack)[0m
+[1;34mMutantStack<int> mstack3 = mstack[0m
+[1;34mMutantStack<int> mstack3 = mstack3[0m
+[1;34mComparing contents:[0m
+mstack == mstack2: [1;35mtrue[0m
+mstack == mstack3: [1;35mtrue[0m
+[1;32mAll copies are equal[0m
+
+[1;33m------- Test copy and assign: complex-------[0m
+[1;34mMutantStack<int, std::list<int> >[0m
+[1;34mPrinting mstack:[0m
+[1;32m5 17 3 [0m
+[1;34mMutantStack<int> mstack2(mstack)[0m
+[1;34mMutantStack<int> mstack3 = mstack[0m
+[1;34mMutantStack<int> mstack3 = mstack3[0m
+[1;34mComparing contents:[0m
+mstack == mstack2: [1;35mtrue[0m
+mstack == mstack3: [1;35mtrue[0m
+[1;32mAll copies are equal[0m
+
